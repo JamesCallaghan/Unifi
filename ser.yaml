@@ -1,0 +1,36 @@
+kind: Service
+apiVersion: v1
+metadata:
+  labels:
+    k8s-app: unifi
+  name: unifi
+  namespace: unifi
+spec:
+  type: NodePort
+  externalIPs:
+    - 192.168.1.32
+  ports:
+  - port: 8080
+    name: uap-inform
+    targetPort: 8080
+  - port: 8443
+    name: controller-gui-api
+    targetPort: 8443
+  - port: 8880
+    name: http-redirect
+    targetPort: 8880
+  - port: 8843
+    name: https-redirect
+    targetPort: 8843
+  - port: 6789
+    name: throughput-measurement
+    targetPort: 6789
+  - port: 3478
+    name: stun-port
+    targetPort: 3478
+    protocol: UDP
+  - port: 8081
+    name: wireless-client-redirector-port1
+    targetPort: 8081
+  selector:
+    k8s-app: unifi

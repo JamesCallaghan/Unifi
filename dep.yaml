@@ -1,0 +1,80 @@
+apiVersion: extensions/v1beta1
+kind: Deployment
+metadata:
+  name: unifi
+  namespace: unifi
+  labels:
+    k8s-app: unifi
+    version: v0
+spec:
+  replicas: 1
+  template:
+    metadata:
+      name: unifi
+      labels:
+        k8s-app: unifi
+        version: v0
+    spec:
+      containers:
+      - name: unifi
+        image: jamescallaghan1987/unifi-controller-arm-5
+        volumeMounts:
+        - name: unifi-pv-1
+          mountPath: /var/lib/unifi
+          subPath: "config"
+        - name: unifi-pv-2
+          mountPath: /usr/lib/unifi/logs
+          subPath: "log"
+        - name: unifi-pv-3
+          mountPath: /var/log/unifi
+          subPath: "log2"
+        - name: unifi-pv-4
+          mountPath: /usr/lib/unifi/run
+          subPath: "run"
+        - name: unifi-pv-5
+          mountPath: /run/unifi
+          subPath: "run2"
+        - name: unifi-pv-6
+          mountPath: /usr/lib/unifi/work
+          subPath: "work"
+        ports:
+        - containerPort: 6789
+          name: ubnt-6789
+          protocol: TCP
+        - containerPort: 8080
+          name: ubnt-8080
+          protocol: TCP
+        - containerPort: 8443
+          name: ubnt-8443
+          protocol: TCP
+        - containerPort: 3478
+          name: ubnt-3478
+          protocol: UDP
+        - containerPort: 8081
+          name: ubnt-8081
+          protocol: TCP
+        - containerPort: 8843
+          name: ubnt-8843
+          protocol: TCP
+        - containerPort: 8880
+          name: ubnt-8880
+          protocol: TCP
+      volumes:
+      - name: unifi-pv-1
+        persistentVolumeClaim:
+          claimName: pvc-1
+      - name: unifi-pv-2
+        persistentVolumeClaim:
+          claimName: pvc-2
+      - name: unifi-pv-3
+        persistentVolumeClaim:
+          claimName: pvc-3
+      - name: unifi-pv-4
+        persistentVolumeClaim:
+          claimName: pvc-4
+      - name: unifi-pv-5
+        persistentVolumeClaim:
+          claimName: pvc-5
+      - name: unifi-pv-6
+        persistentVolumeClaim:
+          claimName: pvc-6

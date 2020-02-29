@@ -1,0 +1,33 @@
+---
+apiVersion: v1
+kind: PersistentVolume
+metadata:
+  name: pv-4
+  namespace: unifi
+  labels:
+    category: unifi-4
+spec:
+  capacity:
+    storage: 5Gi
+  accessModes:
+  - ReadWriteOnce
+  persistentVolumeReclaimPolicy: Retain
+  nfs:
+    path: /mnt/NFS/unifi/ldisk
+    server: 192.168.1.29
+---
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: pvc-4
+  namespace: unifi
+spec:
+  accessModes:
+  - ReadWriteOnce
+  resources:
+    requests:
+      storage: 5Gi
+  selector:
+    matchLabels:
+      category: unifi-4
+---
